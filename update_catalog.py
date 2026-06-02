@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+import sys
 
 def update_catalog():
     # Replace with your actual Google Sheet ID
@@ -14,7 +15,17 @@ def update_catalog():
         # Read directly from the Google Sheets live URL
         df = pd.read_csv(csv_url)
 
-        # Handle blank/missing values safely
+        # Map the exact Google Sheet headers to your desired JSON keys
+        df.rename(columns={
+            'Product ID': 'id',
+            'Name': 'name',
+            'Description': 'description',
+            'Price': 'price',
+            'image link': 'image',
+            'Category': 'category'
+        }, inplace=True)
+
+        # Handle blank/missing values safely using the new lowercase names
         df['price'] = pd.to_numeric(df['price'], errors='coerce').fillna(1).astype(int)
         df['image'] = df['image'].fillna("") 
         df = df.fillna("N/A") 
@@ -28,6 +39,8 @@ def update_catalog():
 
     except Exception as e:
         print(f"❌ An error occurred: {e}")
+        # CRITICAL: Tell GitHub Actions the script failed so the workflow turns red
+        sys.exit(1)
 
 if __name__ == "__main__":
     update_catalog()
