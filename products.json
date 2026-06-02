@@ -1,0 +1,10 @@
+[
+  {
+    "id": "test-p1",
+    "name": "Test Product",
+    "description": "Test description",
+    "price": 1,
+    "image": "",
+    "category": "Test Category"
+  }
+]
