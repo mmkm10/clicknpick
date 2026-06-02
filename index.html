@@ -133,7 +133,7 @@
                 </div>
             `).join('');
         }
-const generatedOrderId = Math.floor(1000 + Math.random() * 9000);
+
         function updateQty(id, change) {
             cart[id] = (cart[id] || 0) + change;
             if(cart[id] <= 0) delete cart[id];
@@ -187,7 +187,7 @@ const generatedOrderId = Math.floor(1000 + Math.random() * 9000);
                     summary.push(`${p.name} (${cart[id]})`);
                     finalTotal += p.price * cart[id];
                 }
-
+                const generatedOrderId = Math.floor(1000 + Math.random() * 9000);
                 const payload = {
                     orderID : generatedOrderId,
                     name: form.get('name'), phone: form.get('phone'),
