@@ -4,7 +4,7 @@
     "name": "Test Product",
     "description": "Test description",
     "price": 1,
-    "image": "",
+    "image": "testIMG.jpg",
     "category": "Test Category"
   }
 ]
