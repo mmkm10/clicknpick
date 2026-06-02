@@ -168,18 +168,16 @@
             e.preventDefault();
             const btn = document.getElementById('submit-btn');
             btn.disabled = true;
-            btn.innerText = "Processing...";
+            btn.innerText = "Processing... Do not close window.";
 
             const form = new FormData(e.target);
             const file = document.getElementById('screenshot').files[0];
             
-            // Convert image to base64
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = async () => {
                 const base64 = reader.result.split(',')[1];
                 
-                // Build Order Summary String
                 let summary = [];
                 let finalTotal = 0;
                 for(let id in cart) {
@@ -187,9 +185,9 @@
                     summary.push(`${p.name} (${cart[id]})`);
                     finalTotal += p.price * cart[id];
                 }
-                const generatedOrderId = Math.floor(1000 + Math.random() * 9000);
+
+                // Notice we removed the order ID generator from here!
                 const payload = {
-                    orderID : generatedOrderId,
                     name: form.get('name'), phone: form.get('phone'),
                     hostel: form.get('hostel'), room: form.get('room'),
                     fulfillment: form.get('fulfillment'),
@@ -199,23 +197,34 @@
                 };
 
                 try {
-                    await fetch(GOOGLE_SCRIPT_URL, {
-                        method: 'POST', mode: 'no-cors',
-                        headers: { 'Content-Type': 'application/json' },
+                    const response = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        // mode: 'no-cors' is REMOVED so we can read the response
+                        // Content-Type is changed to text/plain to bypass strict Google CORS blocks
+                        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify(payload)
                     });
                     
-                    alert("Order placed successfully! Your Order ID is #" + generatedOrderId + ". We will verify the payment.");
-                    cart = {}; updateCart(); renderProducts(); closeCheckout(); e.target.reset();
+                    // Wait for the backend to tell us the unique ID
+                    const result = await response.json();
+
+                    if (result.status === 'success') {
+                        // Display the ID sent directly from the Google Script
+                        alert(`Order placed successfully! Your Order ID is #$"+ result.orderId"+. We will verify the payment.`);
+                        cart = {}; updateCart(); renderProducts(); closeCheckout(); e.target.reset();
+                    } else {
+                        alert("There was an issue processing your order. Please try again.");
+                        console.error(result.error);
+                    }
+
                 } catch (err) {
-                    alert("Submission failed. Check connection.");
+                    alert("Submission failed. Please check your internet connection.");
+                    console.error(err);
                 } finally {
                     btn.disabled = false; btn.innerText = "Submit Order & Payment Proof";
                 }
             };
-        }
-
-        window.onload = init;
+        }        window.onload = init;
     </script>
 </body>
 </html>
