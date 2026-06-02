@@ -1,32 +1,30 @@
 import pandas as pd
 import json
-import os
 
 def update_catalog():
-    excel_file = 'catalog.xlsx'
+    # Replace with your actual Google Sheet ID
+    SHEET_ID = 'd9xAM8G2AVhIiQhgR6uggRNlgQfdG6VVk4rHf-rTL3g'
+    SHEET_NAME = 'Sheet1' # Change if your tab has a different name
+    
+    # This URL automatically exports the Google Sheet as a CSV
+    csv_url = f'https://docs.google.com/spreadsheets/d/{SHEET_ID}/gviz/tq?tqx=out:csv&sheet={SHEET_NAME}'
     json_file = 'products.json'
 
-    # Check if Excel file exists
-    if not os.path.exists(excel_file):
-        print(f"Error: Could not find '{excel_file}'. Please create it with columns: id, name, description, price, image, category")
-        return
-
     try:
-        # Read the Excel file
-        df = pd.read_excel(excel_file)
+        # Read directly from the Google Sheets live URL
+        df = pd.read_csv(csv_url)
 
-        # Handle blank/missing values based on your rules
-        df['price'] = df['price'].fillna(1).astype(int) # Default price 1
-        df['image'] = df['image'].fillna("") # Default empty string for image
-        df = df.fillna("N/A") # Fill any other blanks with N/A
+        # Handle blank/missing values safely
+        df['price'] = pd.to_numeric(df['price'], errors='coerce').fillna(1).astype(int)
+        df['image'] = df['image'].fillna("") 
+        df = df.fillna("N/A") 
 
-        # Convert to dictionary and save as JSON
         products = df.to_dict(orient='records')
         
-        with open(json_file, 'w') as f:
-            json.dump(products, f, indent=2)
+        with open(json_file, 'w', encoding='utf-8') as f:
+            json.dump(products, f, indent=2, ensure_ascii=False)
             
-        print(f"✅ Success! {len(products)} products have been updated in {json_file}")
+        print(f"✅ Success! {len(products)} products updated.")
 
     except Exception as e:
         print(f"❌ An error occurred: {e}")
