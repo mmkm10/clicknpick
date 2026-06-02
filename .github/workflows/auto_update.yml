@@ -1,0 +1,35 @@
+name: Auto Update Product Catalog
+
+on:
+  push:
+    paths:
+      - 'catalog.xlsx' # This triggers the script ONLY when the Excel file changes
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-python-version: '3.x'
+
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install pandas openpyxl
+
+    - name: Run Catalog Update Script
+      run: python update_catalog.py
+
+    - name: Commit and Push Updated JSON
+      run: |
+        git config --global user.name "GitHub Action Bot"
+        git config --global user.email "actions@github.com"
+        git add products.json
+        # Only commit if changes actually exist to avoid loops
+        git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Auto-updated products.json from Excel" && git push)
