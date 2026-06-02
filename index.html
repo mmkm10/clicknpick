@@ -205,7 +205,7 @@
                         body: JSON.stringify(payload)
                     });
                     
-                    alert(`Order placed successfully! We will verify the payment. Your Order ID for future reference is #${generatedOrderId}`);
+                    alert("Order placed successfully! Your Order ID is #" + generatedOrderId + ". We will verify the payment.");
                     cart = {}; updateCart(); renderProducts(); closeCheckout(); e.target.reset();
                 } catch (err) {
                     alert("Submission failed. Check connection.");
