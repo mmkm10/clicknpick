@@ -12,7 +12,7 @@
     "name": "Test",
     "description": "Testing item",
     "price": 1,
-    "image": "Images/testIMG",
+    "image": "Images/testIMG.jpg",
     "category": "Test"
   }
 ]
