@@ -6,5 +6,13 @@
     "price": 1,
     "image": "testIMG.jpg",
     "category": "Test Category"
+  },
+    {
+    "id": "test-p2",
+    "name": "Test 2",
+    "description": "Test again",
+    "price": 1,
+    "image": "testIMG.jpg",
+    "category": "Test Category"
   }
 ]
