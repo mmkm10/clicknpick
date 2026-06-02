@@ -133,7 +133,7 @@
                 </div>
             `).join('');
         }
-
+const generatedOrderId = Math.floor(1000 + Math.random() * 9000);
         function updateQty(id, change) {
             cart[id] = (cart[id] || 0) + change;
             if(cart[id] <= 0) delete cart[id];
@@ -204,7 +204,7 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
-                    const generatedOrderId = Math.floor(1000 + Math.random() * 9000);
+                    
                     alert("Order placed successfully! We will verify the payment. Your Order ID for future reference is #${generatedOrderId}");
                     cart = {}; updateCart(); renderProducts(); closeCheckout(); e.target.reset();
                 } catch (err) {
