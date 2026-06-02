@@ -4,7 +4,7 @@ import sys
 
 def update_catalog():
     # Replace with your actual Google Sheet ID
-    SHEET_ID = 'd9xAM8G2AVhIiQhgR6uggRNlgQfdG6VVk4rHf-rTL3g'
+    SHEET_ID = '1d9xAM8G2AVhIiQhgR6uggRNlgQfdG6VVk4rHf-rTL3g'
     SHEET_NAME = 'Sheet1' # Change if your tab has a different name
     
     # This URL automatically exports the Google Sheet as a CSV
