@@ -186,7 +186,9 @@
                     finalTotal += p.price * cart[id];
                 }
 
-                // Notice we removed the order ID generator from here!
+                // 🛑 MAKE SURE YOU DO NOT HAVE THIS LINE ANYMORE:
+                // const generatedOrderId = Math.floor(1000 + ...); 
+
                 const payload = {
                     name: form.get('name'), phone: form.get('phone'),
                     hostel: form.get('hostel'), room: form.get('room'),
@@ -199,18 +201,18 @@
                 try {
                     const response = await fetch(GOOGLE_SCRIPT_URL, {
                         method: 'POST',
-                        // mode: 'no-cors' is REMOVED so we can read the response
-                        // Content-Type is changed to text/plain to bypass strict Google CORS blocks
+                        // ✅ IMPORTANT: mode: 'no-cors' must be removed
+                        // ✅ IMPORTANT: Content-Type must be 'text/plain'
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify(payload)
                     });
                     
-                    // Wait for the backend to tell us the unique ID
+                    // This waits for the Google Script to reply with the exact Excel Order ID
                     const result = await response.json();
 
                     if (result.status === 'success') {
-                        // Display the ID sent directly from the Google Script
-                        alert(`Order placed successfully! Your Order ID is #$"+ result.orderId"+. We will verify the payment.`);
+                        //  This alert now uses the exact ID saved in Excel (result.orderId)
+                        alert(`Order placed successfully! Your Order ID is #$"+result.orderId". We will verify the payment.`);
                         cart = {}; updateCart(); renderProducts(); closeCheckout(); e.target.reset();
                     } else {
                         alert("There was an issue processing your order. Please try again.");
@@ -224,7 +226,8 @@
                     btn.disabled = false; btn.innerText = "Submit Order & Payment Proof";
                 }
             };
-        }        window.onload = init;
+        }
+        window.onload = init;
     </script>
 </body>
 </html>
