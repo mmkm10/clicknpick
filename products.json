@@ -4,7 +4,7 @@
     "name": "Test Product",
     "description": "Test description",
     "price": 1,
-    "image": "testIMG.jpg",
+    "image": "Images/testIMG.jpg",
     "category": "Test Category"
   },
     {
@@ -12,7 +12,7 @@
     "name": "Test 2",
     "description": "Test again",
     "price": 1,
-    "image": "testIMG.jpg",
+    "image": "Images/testIMG.jpg",
     "category": "Test Category"
   }
 ]
