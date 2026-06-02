@@ -102,27 +102,27 @@
             }
         }
 
-        function renderProducts() {
+   function renderProducts() {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = products.map(p => `
-                <div class="bg-white rounded-xl shadow border overflow-hidden flex flex-col">
+                <div class="bg-white rounded-xl shadow border overflow-hidden flex flex-col transition hover:shadow-lg">
                     <div class="h-40 bg-gray-100 flex items-center justify-center relative">
-                        ${p.image ? `<img src="${p.image}" class="w-full h-full object-cover">` : `<i class="fas fa-box text-4xl text-gray-300"></i>`}
+                        ${p.image ? `<img src="${p.image}" loading="lazy" alt="${p.name}" class="w-full h-full object-cover">` : `<i class="fas fa-box text-4xl text-gray-300"></i>`}
                     </div>
                     <div class="p-4 flex-grow flex flex-col justify-between">
                         <div>
-                            <h3 class="font-bold text-lg">${p.name}</h3>
+                            <h3 class="font-bold text-lg leading-tight mb-1">${p.name}</h3>
                             <p class="text-sm text-gray-500 line-clamp-2 mb-2">${p.description}</p>
                         </div>
                         <div class="flex justify-between items-center mt-2">
-                            <span class="font-black text-lg">₹${p.price}</span>
+                            <span class="font-black text-lg text-gray-900">₹${p.price}</span>
                             ${cart[p.id] ? 
-                                `<div class="flex items-center bg-yellow-400 rounded-lg font-bold">
-                                    <button onclick="updateQty('${p.id}', -1)" class="px-3 py-1">-</button>
+                                `<div class="flex items-center bg-yellow-400 rounded-lg font-bold shadow-sm">
+                                    <button onclick="updateQty('${p.id}', -1)" class="px-3 py-1 hover:bg-yellow-500 transition rounded-l-lg">-</button>
                                     <span class="px-2">${cart[p.id]}</span>
-                                    <button onclick="updateQty('${p.id}', 1)" class="px-3 py-1">+</button>
+                                    <button onclick="updateQty('${p.id}', 1)" class="px-3 py-1 hover:bg-yellow-500 transition rounded-r-lg">+</button>
                                 </div>` :
-                                `<button onclick="updateQty('${p.id}', 1)" class="border-2 border-yellow-400 px-4 py-1 rounded-lg font-bold hover:bg-yellow-400">ADD</button>`
+                                `<button onclick="updateQty('${p.id}', 1)" class="border-2 border-yellow-400 text-black px-4 py-1 rounded-lg font-bold hover:bg-yellow-400 transition">ADD</button>`
                             }
                         </div>
                     </div>
