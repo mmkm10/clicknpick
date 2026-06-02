@@ -186,8 +186,7 @@
                     finalTotal += p.price * cart[id];
                 }
 
-                // 🛑 MAKE SURE YOU DO NOT HAVE THIS LINE ANYMORE:
-                // const generatedOrderId = Math.floor(1000 + ...); 
+               
 
                 const payload = {
                     name: form.get('name'), phone: form.get('phone'),
@@ -201,18 +200,17 @@
                 try {
                     const response = await fetch(GOOGLE_SCRIPT_URL, {
                         method: 'POST',
-                        // ✅ IMPORTANT: mode: 'no-cors' must be removed
-                        // ✅ IMPORTANT: Content-Type must be 'text/plain'
                         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                         body: JSON.stringify(payload)
                     });
                     
                     // This waits for the Google Script to reply with the exact Excel Order ID
                     const result = await response.json();
+                    const OrderID=result.orderID;
 
                     if (result.status === 'success') {
                         //  This alert now uses the exact ID saved in Excel (result.orderId)
-                        alert("Order placed successfully! Your Order ID is #" + result.orderId + ". We will verify the payment.");
+                        alert("Order placed successfully! Your Order ID is #" + OrderID + ". We will verify the payment.");
                         cart = {}; updateCart(); renderProducts(); closeCheckout(); e.target.reset();
                     } else {
                         alert("There was an issue processing your order. Please try again.");
