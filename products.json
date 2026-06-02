@@ -2,9 +2,17 @@
   {
     "id": "P2",
     "name": "Symphony Cooler",
-    "description": "Cooler from Symphony",
+    "description": "Coller from Symphony",
     "price": 9000,
     "image": "Images/cooler_symphony.webp",
     "category": "Cooler"
+  },
+  {
+    "id": "ptest_1",
+    "name": "Test",
+    "description": "Testing item",
+    "price": 1,
+    "image": "Images/testIMG",
+    "category": "Test"
   }
 ]
