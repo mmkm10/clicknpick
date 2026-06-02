@@ -189,6 +189,7 @@
                 }
 
                 const payload = {
+                    orderID : generatedOrderId,
                     name: form.get('name'), phone: form.get('phone'),
                     hostel: form.get('hostel'), room: form.get('room'),
                     fulfillment: form.get('fulfillment'),
@@ -203,7 +204,8 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
                     });
-                    alert("Order placed successfully! We will verify the payment.");
+                    const generatedOrderId = Math.floor(1000 + Math.random() * 9000);
+                    alert("Order placed successfully! We will verify the payment. Your Order ID for future reference is #${generatedOrderId}");
                     cart = {}; updateCart(); renderProducts(); closeCheckout(); e.target.reset();
                 } catch (err) {
                     alert("Submission failed. Check connection.");
