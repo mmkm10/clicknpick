@@ -212,7 +212,7 @@
 
                     if (result.status === 'success') {
                         //  This alert now uses the exact ID saved in Excel (result.orderId)
-                        alert("Order placed successfully! Your Order ID is #"+ result.orderId ". We will verify the payment.");
+                        alert("Order placed successfully! Your Order ID is #" + result.orderId + ". We will verify the payment.");
                         cart = {}; updateCart(); renderProducts(); closeCheckout(); e.target.reset();
                     } else {
                         alert("There was an issue processing your order. Please try again.");
