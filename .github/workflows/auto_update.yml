@@ -1,9 +1,9 @@
-name: Auto Update Product Catalog
+name: Auto Sync Catalog from Google Sheet
 
 on:
-  push:
-    paths:
-      - 'catalog.xlsx' # This triggers the script ONLY when the Excel file changes
+  schedule:
+    - cron: '0 * * * *' # Automatically runs every single hour to pull updates
+  workflow_dispatch:   # Dynamically adds a manual "Sync Now" button in GitHub Actions
 
 jobs:
   build:
@@ -16,14 +16,14 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-python-version: '3.x'
+        python-version: '3.x'
 
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install pandas openpyxl
 
-    - name: Run Catalog Update Script
+    - name: Run Google Sheet Sync Script
       run: python update_catalog.py
 
     - name: Commit and Push Updated JSON
@@ -31,5 +31,5 @@ jobs:
         git config --global user.name "GitHub Action Bot"
         git config --global user.email "actions@github.com"
         git add products.json
-        # Only commit if changes actually exist to avoid loops
-        git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Auto-updated products.json from Excel" && git push)
+        # Only commits if the Google Sheet data actually changed
+        git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Synced products.json with live Google Sheet" && git push)
