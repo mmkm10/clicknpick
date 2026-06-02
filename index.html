@@ -206,7 +206,7 @@
                     
                     // This waits for the Google Script to reply with the exact Excel Order ID
                     const result = await response.json();
-                    const OrderID=result.orderID;
+                    const OrderID=result.uniqueOrderId;
 
                     if (result.status === 'success') {
                         //  This alert now uses the exact ID saved in Excel (result.orderId)
