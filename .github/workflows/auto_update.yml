@@ -5,16 +5,20 @@ on:
     - cron: '0 * * * *' # Automatically runs every single hour to pull updates
   workflow_dispatch:   # Dynamically adds a manual "Sync Now" button in GitHub Actions
 
+# CRITICAL: Grants the bot permission to push commits to the repository
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.x'
 
